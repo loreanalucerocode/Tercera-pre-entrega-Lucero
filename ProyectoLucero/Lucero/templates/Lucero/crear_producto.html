@@ -1,0 +1,13 @@
+{% extends 'Lucero/base.html' %}
+
+{% block title %}Crear Producto - LuceroStore{% endblock %}
+
+{% block content %}
+    <h2>Crear Nuevo Producto</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
+{% endblock %}
+
