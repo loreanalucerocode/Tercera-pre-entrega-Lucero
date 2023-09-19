@@ -3,26 +3,33 @@
 {% block title %}Buscar Productos - LuceroStore{% endblock %}
 
 {% block content %}
-    <header>
-        <h1>Buscar Productos</h1>
-    </header>
-    <main>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Buscar</button>
-        </form>
+    <section class="search-products">
+        <header>
+            <h1>Buscar Productos</h1>
+        </header>
+        <main>
+            <form method="post" class="search-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="termino_busqueda">Buscar Producto:</label>
+                    <input type="text" id="termino_busqueda" name="termino_busqueda" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
 
-        {% if resultados %}
-            <h2>Resultados de la búsqueda:</h2>
-            <ul>
-                {% for producto in resultados %}
-                    <li>{{ producto.nombre }}</li>
-                {% endfor %}
+            <ul class="product-list">
+                <!-- Aquí se mostrarán los resultados -->
+                {% if resultados %}
+                    {% for producto in resultados %}
+                        <li class="product-item">{{ producto.nombre }}</li>
+                    {% endfor %}
+                {% else %}
+                    <p>No se encontraron resultados.</p>
+                {% endif %}
             </ul>
-        {% endif %}
-    </main>
+        </main>
+    </section>
     <footer>
-        <p>Pie de página común</p>
+        <p></p>
     </footer>
 {% endblock %}

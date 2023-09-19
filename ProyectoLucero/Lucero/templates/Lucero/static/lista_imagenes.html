@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Lista de Imágenes</h2>
+  <ul>
+    {% for imagen in imagenes %}
+      <li>
+        <img src="{{ imagen.imagen.url }}" alt="{{ imagen.titulo }}" width="200">
+        <p>{{ imagen.titulo }}</p>
+        <a href="{% url 'actualizar_imagen' imagen.pk %}">Editar</a> |
+        <a href="{% url 'eliminar_imagen' imagen.pk %}">Eliminar</a>
+      </li>
+    {% empty %}
+      <p>No hay imágenes disponibles.</p>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'crear_imagen' %}">Cargar una nueva imagen</a>
+{% endblock %}

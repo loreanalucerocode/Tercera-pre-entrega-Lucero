@@ -15,6 +15,18 @@
             background-color: #333;
             color: #fff;
             padding: 20px;
+            display: flex;
+            flex-direction: column; /* Alinea elementos verticalmente */
+            align-items: center; /* Centra horizontalmente */
+        }
+
+        header {
+            background-image: url("images/tienda.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+            padding: 20px;
         }
 
         nav ul {
@@ -27,55 +39,131 @@
             margin-right: 20px;
         }
 
-        #content {
-            background-color: #fff;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: left;
-        }
-
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-        }
-
-        /* Estilos para botones */
-        .btn {
+        /* Estilo para el botón de perfil */
+        .profile-button {
             display: inline-block;
             padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50%; /* Para que sea circular */
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para los botones de inicio de sesión y registro */
+        .login-register-buttons {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .login-register-buttons .btn {
+            display: inline-block;
+            padding: 8px 16px; /* Tamaño de fuente más pequeño */
             background-color: #333;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
             transition: background-color 0.3s ease;
+            font-size: 14px; /* Tamaño de fuente más pequeño */
         }
 
-        .btn:hover {
+        .login-register-buttons .btn:hover {
             background-color: #555;
+        }
+
+        /* Estilos para el título "LuceroStore" */
+        .store-title {
+            font-size: 36px; /* Tamaño de fuente más grande */
+            font-weight: bold; /* Fuente en negrita */
+            margin-top: 10px;
+        }
+
+        /* Estilo para la frase "Tu destino para compras brillantes" */
+        .store-slogan {
+            font-size: 18px; /* Tamaño de fuente más grande */
+            margin-bottom: 20px; /* Espacio inferior */
+        }
+
+        /* Estilos para los botones "Crear Categoría", "Leer Categorías", "Crear Pedido", "Crear Producto" */
+        .custom-button {
+            background-color: #333;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px; /* Espacio inferior */
+        }
+
+        .custom-button:hover {
+            background-color: #555;
+        }
+
+        /* Estilo para el botón "Acerca de nosotros" en la parte inferior */
+        .about-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #007BFF;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .about-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>LuceroStore</h1>
-        <p>Tu destino para compras brillantes.</p>
+        <div class="login-register-buttons">
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="btn">Cerrar Sesión</a>
+                <a href="{% url 'EditarPerfil' %}" class="profile-button">
+                    {% if user.avatar.imagen %}
+                        <img src="{{ user.avatar.imagen.url }}" alt="{{ user.username }} Avatar" width="40" height="40" style="border-radius: 50%;">
+                    {% else %}
+                        Ver Perfil
+                    {% endif %}
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn">Iniciar Sesión</a>
+                <a href="{% url 'Register' %}" class="btn">Registrarse</a>
+            {% endif %}
+        </div>
+        <div class="store-title">LuceroStore</div>
+        <p class="store-slogan">Tu destino para compras brillantes</p>
     </header>
     <nav>
         <ul>
-            <li><a class="btn" href="{% url 'crear_categoria' %}">Crear Categoría</a></li>
-            <li><a class="btn" href="{% url 'buscar' %}">Buscar Productos</a></li>
-            <li><a class="btn" href="{% url 'crear_pedido' %}">Crear Pedido</a></li>
-            <li><a class="btn" href="{% url 'crear_producto' %}">Crear Producto</a></li>
-            <!-- Agrega otros botones aquí -->
+            <li><a class="custom-button" href="{% url 'crear_categoria' %}">Crear Categoría</a></li>
+            <li><a class="custom-button" href="{% url 'buscar_productos' %}">Buscar Productos</a></li>
+            <li><a class="custom-button" href="{% url 'crear_pedido' %}">Crear Pedido</a></li>
+            <li><a class="custom-button" href="{% url 'crear_producto' %}">Crear Producto</a></li>
+            <li>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'leer_categoria' 'nombre_categoria' %}" class="custom-button btn-primary">Leer Categorías</a>
+                {% endif %}
+            </li>
         </ul>
     </nav>
+    
     <div id="content">
         {% block content %}
         {% endblock %}
     </div>
+    <a href="{% url 'about' %}" class="about-button">Acerca de nosotros</a>
     <footer>
         <p>Podrás encontrar y crear los mejores productos</p>
     </footer>

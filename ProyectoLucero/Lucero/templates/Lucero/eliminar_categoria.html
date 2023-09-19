@@ -1,0 +1,15 @@
+<body>
+    <ul>
+        {% for c in categorias %}
+            <li>
+                {{ c.nombre }}
+                <form method="post" action="{% url 'eliminar_categoria' c.nombre %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Eliminar">
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <br>
+    <a href="{% url 'crear_categoria' %}">Agregar otra categoría</a>
+</body>

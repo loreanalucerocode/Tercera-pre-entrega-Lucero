@@ -1,0 +1,86 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Meta y estilos -->
+    <style>
+        /* Agrega estilos para la imagen de perfil circular */
+        .profile-image {
+            border-radius: 50%;
+            width: 150px; /* Ajusta el tamaño de acuerdo a tus preferencias */
+            height: 150px;
+            object-fit: cover; /* Ajusta la imagen para que llene el círculo sin deformarla */
+        }
+
+        /* Agrega estilos personalizados para mejorar la apariencia */
+        header {
+            background-color: #007bff; /* Color de fondo del encabezado */
+            color: white; /* Color del texto del encabezado */
+            text-align: center; /* Alineación del texto del encabezado */
+            padding: 10px; /* Espaciado interior del encabezado */
+        }
+
+        .container {
+            margin: 20px auto; /* Margen para centrar el contenido */
+            max-width: 600px; /* Ancho máximo del contenedor principal */
+            padding: 20px; /* Espaciado interior del contenedor principal */
+            background-color: #f8f9fa; /* Color de fondo del contenedor */
+            border-radius: 5px; /* Bordes redondeados del contenedor */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra del contenedor */
+        }
+
+        .edit-profile-form {
+            margin-top: 20px; /* Espaciado superior del formulario */
+        }
+
+        .btn-save-changes {
+            background-color: #007bff; /* Color de fondo del botón Guardar Cambios */
+            color: white; /* Color del texto del botón Guardar Cambios */
+            border: none; /* Elimina el borde del botón */
+            padding: 10px 20px; /* Espaciado interior del botón */
+            border-radius: 5px; /* Bordes redondeados del botón */
+            cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+        }
+
+        .btn-save-changes:hover {
+            background-color: #0056b3; /* Color de fondo del botón al pasar el cursor */
+        }
+
+        /* Agrega cualquier otro estilo personalizado que desees */
+    </style>
+</head>
+<body>
+    <header>
+        LuceroStore
+    </header>
+    
+    <main>
+        <div class="container">
+            {% if user.is_authenticated %}
+                <h1>Editar Perfil</h1>
+                {% if avatar %}
+                    <h2>Avatar</h2>
+                    <!-- Aplica la clase profile-image a la imagen de perfil -->
+                    <img class="profile-image" src="{{ avatar.imagen.url }}" alt="Avatar de {{ user.username }}">
+                {% endif %}
+                <form method="post" class="edit-profile-form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ user_form.as_p }}
+                    {{ password_form.as_p }}
+                    <!-- Agrega la entrada de carga de avatar -->
+                    {{ avatar_form.as_p }}
+                    <button type="submit" class="btn-save-changes">Guardar Cambios</button>
+                </form>
+                <a href="{% url 'pagina_inicio' %}" class="btn-back">Volver a la página de inicio</a>
+            {% else %}
+                <h1>Iniciar Sesión</h1>
+                <p class="login-message">Debes <a href="{% url 'login' %}" class="login-link">iniciar sesión</a> antes de editar tu perfil.</p>
+                <a href="{% url 'pagina_inicio' %}" class="btn-back">Volver a la página de inicio</a>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>
+
+

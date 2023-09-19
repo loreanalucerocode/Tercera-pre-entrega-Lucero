@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Cargar Nueva Imagen</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Cargar</button>
+  </form>
+  <a href="{% url 'lista_imagenes' %}">Volver a la lista de imágenes</a>
+{% endblock %}

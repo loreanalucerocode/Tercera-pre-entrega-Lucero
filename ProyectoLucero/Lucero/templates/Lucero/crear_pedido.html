@@ -4,9 +4,15 @@
 
 {% block content %}
     <h1>Crear Pedido</h1>
-    <form method="post">
+    <form method="post" class="pedido-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Guardar Pedido</button>
+        <button type="submit" class="btn-guardar">Guardar Pedido</button>
     </form>
+    
+    {% if mensaje_exito %}
+        <div class="exito-mensaje">
+            {{ mensaje_exito }}
+        </div>
+    {% endif %}
 {% endblock %}

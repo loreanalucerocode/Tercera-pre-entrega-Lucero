@@ -1,0 +1,20 @@
+{% extends 'Lucero/base.html' %}
+
+{% block content %}
+    <h1>Lista de Categorías</h1>
+
+    <ul>
+        {% for categoria in categorias %}
+            <li>
+                <a href="{% url 'leer_categoria' nombre_categoria=categoria.nombre %}">{{ categoria.nombre }}</a>
+                <a href="{% url 'editar_categoria' nombre_categoria=categoria.nombre %}" class="btn btn-primary">Editar</a>
+                <form method="post" action="{% url 'eliminar_categoria' nombre_categoria=categoria.nombre %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Eliminar" class="btn btn-danger">
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'crear_categoria' %}" class="btn btn-primary">Crear Nueva Categoría</a>
+{% endblock %}
